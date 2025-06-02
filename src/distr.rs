@@ -1,8 +1,7 @@
 use std::ops::RangeInclusive;
 
-use egui::emath::Numeric;
-pub mod cont;
-pub mod disc;
+pub mod cont_distr;
+pub mod disc_distr;
 
 pub const BARELY_POSITIVE: f64 = 0.001;
 
@@ -10,7 +9,7 @@ pub const BARELY_POSITIVE: f64 = 0.001;
 pub enum MixedParam {
     Float { param: Param<f64> },
     Unsigned { param: Param<u64> },
-    Signed { param: Param<i64> },
+    _Signed { param: Param<i64> },
 }
 
 #[derive(Clone, PartialEq, Debug)]
