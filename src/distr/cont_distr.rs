@@ -1,5 +1,5 @@
 use super::{BARELY_POSITIVE, MixedParam, Param};
-use statrs::distribution::*;
+use statrs::{distribution::*, statistics::Distribution};
 use std::{fmt::Display, ops::RangeInclusive};
 use strum_macros::EnumIter;
 
@@ -304,7 +304,7 @@ impl DistrTypes {
         }
     }
 }
-pub trait Cont: Continuous<f64, f64> + ContinuousCDF<f64, f64> {}
+pub trait Cont: Continuous<f64, f64> + ContinuousCDF<f64, f64> + Distribution<f64> {}
 impl Cont for Normal {}
 impl Cont for Gamma {}
 impl Cont for Beta {}

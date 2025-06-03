@@ -7,6 +7,8 @@ use egui_plot::{Bar, BarChart, Plot};
 use statrs::distribution::*;
 
 use crate::distr::*;
+
+use super::show_summary_stats_table;
 pub struct DiscPanel {
     par1: f64,
     par2: f64,
@@ -122,6 +124,17 @@ impl DiscPanel {
             }
         }
         ui.add_space(10.0);
+        ui.separator();
+
+        ui.heading("Summary Statistics:");
+        ui.add_space(10.0);
+        // Summary statistics
+        let distr = self.get_distr();
+        if let Ok(d) = distr {
+            let summary = SummaryStats::new(&(*d));
+            show_summary_stats_table(ui, &summary);
+            ui.add_space(10.0);
+        }
     }
 
     pub fn central_panel(&mut self, ui: &mut egui::Ui) {
@@ -171,7 +184,6 @@ impl DiscPanel {
                 self.par2 as u64,
                 self.par3 as u64,
             )?),
-            DistrTypes::NegativeBinomial => Box::new(NegativeBinomial::new(self.par1, self.par2)?),
         };
         Ok(res)
     }

@@ -1,5 +1,8 @@
+use crate::distr::SummaryStats;
 use cont::*;
 use disc::*;
+use egui::{Align, Layout, Ui};
+use egui_extras::TableBuilder;
 
 mod cont;
 mod disc;
@@ -57,6 +60,7 @@ impl eframe::App for TemplateApp {
         });
         egui::SidePanel::left("left_panel")
             .min_width(200.0)
+            .max_width(250.0)
             .show(ctx, |ui| {
                 ui.horizontal_wrapped(|ui| {
                     let container_response = ui.response();
@@ -120,6 +124,89 @@ where
     };
 
     (0..n).map(move |i| T::from(min_f + step * i as f64))
+}
+
+fn show_summary_stats_table(ui: &mut Ui, stats: &SummaryStats) {
+    TableBuilder::new(ui)
+        .striped(true)
+        .column(egui_extras::Column::exact(100.))
+        .column(egui_extras::Column::exact(100.))
+        .header(20., |mut header| {
+            header.col(|ui| {
+                ui.heading("Statistic");
+            });
+            header.col(|ui| {
+                ui.heading("Value");
+            });
+        })
+        .body(|body| {
+            body.rows(20.0, 5, |mut row| {
+                let row_index = row.index();
+                match row_index {
+                    0 => {
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label("Mean");
+                            });
+                        });
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label(stats.display_mean());
+                            });
+                        });
+                    }
+                    1 => {
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label("Variance");
+                            });
+                        });
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label(stats.display_variance());
+                            });
+                        });
+                    }
+                    2 => {
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label("Std. Dev.");
+                            });
+                        });
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label(stats.display_std_dev());
+                            });
+                        });
+                    }
+                    3 => {
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label("Entropy");
+                            });
+                        });
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label(stats.display_entropy());
+                            });
+                        });
+                    }
+                    4 => {
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label("Skewness");
+                            });
+                        });
+                        row.col(|ui| {
+                            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                                ui.label(stats.display_skewness());
+                            });
+                        });
+                    }
+                    _ => {}
+                }
+            });
+        });
 }
 
 fn powered_by_egui_and_eframe(ui: &mut egui::Ui) {

@@ -1,5 +1,5 @@
 use super::{BARELY_POSITIVE, MixedParam, Param};
-use statrs::distribution::*;
+use statrs::{distribution::*, statistics::Distribution};
 use std::{fmt::Display, ops::RangeInclusive};
 use strum_macros::EnumIter;
 
@@ -10,7 +10,7 @@ pub enum DistrTypes {
     Bernoulli,
     Geometric,
     Hypergeometric,
-    NegativeBinomial,
+    // NegativeBinomial,
 }
 
 impl DistrTypes {
@@ -76,22 +76,22 @@ impl DistrTypes {
                     },
                 },
             ],
-            DistrTypes::NegativeBinomial => vec![
-                MixedParam::Float {
-                    param: Param {
-                        default: 4.0,
-                        range: RangeInclusive::new(0_f64, f64::MAX),
-                        name: "r".to_owned(),
-                    },
-                },
-                MixedParam::Float {
-                    param: Param {
-                        default: 0.5_f64,
-                        range: RangeInclusive::new(0_f64, 1.0),
-                        name: "p".to_owned(),
-                    },
-                },
-            ],
+            // DistrTypes::NegativeBinomial => vec![
+            //     MixedParam::Float {
+            //         param: Param {
+            //             default: 4.0,
+            //             range: RangeInclusive::new(0_f64, f64::MAX),
+            //             name: "r".to_owned(),
+            //         },
+            //     },
+            //     MixedParam::Float {
+            //         param: Param {
+            //             default: 0.5_f64,
+            //             range: RangeInclusive::new(0_f64, 1.0),
+            //             name: "p".to_owned(),
+            //         },
+            //     },
+            // ],
         }
     }
 }
@@ -103,15 +103,15 @@ impl Display for DistrTypes {
             DistrTypes::Bernoulli => write!(f, "Bernoulli"),
             DistrTypes::Geometric => write!(f, "Geometric"),
             DistrTypes::Hypergeometric => write!(f, "Hypergeometric"),
-            DistrTypes::NegativeBinomial => write!(f, "NegativeBinomial"),
+            // DistrTypes::NegativeBinomial => write!(f, "NegativeBinomial"),
         }
     }
 }
 
-pub trait Disc: Discrete<u64, f64> + DiscreteCDF<u64, f64> {}
+pub trait Disc: Discrete<u64, f64> + DiscreteCDF<u64, f64> + Distribution<f64> {}
 impl Disc for Binomial {}
 impl Disc for Poisson {}
 impl Disc for Bernoulli {}
 impl Disc for Geometric {}
 impl Disc for Hypergeometric {}
-impl Disc for NegativeBinomial {}
+// impl Disc for NegativeBinomial {}

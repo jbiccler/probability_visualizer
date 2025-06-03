@@ -7,6 +7,7 @@ use strum::IntoEnumIterator;
 use egui_plot::{Line, Plot, PlotPoints};
 use statrs::distribution::*;
 
+use super::show_summary_stats_table;
 use crate::distr::cont_distr::*;
 use crate::distr::*;
 
@@ -97,6 +98,17 @@ impl ContPanel {
             }
         }
         ui.add_space(10.0);
+        ui.separator();
+
+        ui.heading("Summary Statistics:");
+        ui.add_space(10.0);
+        // Summary statistics
+        let distr = self.get_distr();
+        if let Ok(d) = distr {
+            let summary = SummaryStats::new(&(*d));
+            show_summary_stats_table(ui, &summary);
+            ui.add_space(10.0);
+        }
     }
     pub fn central_panel(&mut self, ui: &mut egui::Ui) {
         let distr = self.get_distr();
