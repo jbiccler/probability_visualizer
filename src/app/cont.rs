@@ -62,11 +62,26 @@ impl ContPanel {
                 MixedParam::Unsigned { param: p } => {
                     ui.add(egui::Label::new(format!("{}:", p.name)));
                     if i == 0 {
-                        ui.add(egui::DragValue::new(&mut self.par1).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par1)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else if i == 1 {
-                        ui.add(egui::DragValue::new(&mut self.par2).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par2)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else if i == 2 {
-                        ui.add(egui::DragValue::new(&mut self.par3).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par3)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else {
                         panic!()
                     }
@@ -74,11 +89,26 @@ impl ContPanel {
                 MixedParam::Float { param: p } => {
                     ui.add(egui::Label::new(format!("{}:", p.name)));
                     if i == 0 {
-                        ui.add(egui::DragValue::new(&mut self.par1).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par1)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else if i == 1 {
-                        ui.add(egui::DragValue::new(&mut self.par2).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par2)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else if i == 2 {
-                        ui.add(egui::DragValue::new(&mut self.par3).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par3)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else {
                         panic!()
                     }
@@ -115,8 +145,12 @@ impl ContPanel {
         match distr {
             Err(_) => {}
             Ok(d) => {
-                let min = d.inverse_cdf(0.0001);
-                let max = d.inverse_cdf(0.9999);
+                let (min, max) = match self.selected_distr {
+                    DistrTypes::Cauchy => {
+                        (self.par1 - 10. * self.par2, self.par1 + 10. * self.par2)
+                    }
+                    _ => (d.inverse_cdf(0.001), d.inverse_cdf(0.999)),
+                };
                 if min != -f64::INFINITY && max != f64::INFINITY {
                     // CDF
                     let x = linspace::<f64>(min, max, 1000);

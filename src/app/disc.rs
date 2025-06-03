@@ -77,11 +77,14 @@ impl DiscPanel {
                 MixedParam::Unsigned { param: p } => {
                     ui.add(egui::Label::new(format!("{}:", p.name)));
                     if i == 0 {
-                        ui.add(egui::DragValue::new(&mut self.par1).range(p.range));
+                        ui.add(egui::DragValue::new(&mut self.par1).range(p.range))
+                            .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else if i == 1 {
-                        ui.add(egui::DragValue::new(&mut self.par2).range(p.range));
+                        ui.add(egui::DragValue::new(&mut self.par2).range(p.range))
+                            .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else if i == 2 {
-                        ui.add(egui::DragValue::new(&mut self.par3).range(p.range));
+                        ui.add(egui::DragValue::new(&mut self.par3).range(p.range))
+                            .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else {
                         panic!()
                     }
@@ -91,20 +94,47 @@ impl DiscPanel {
                     if p.name == "p" {
                         // probability parameter
                         if i == 0 {
-                            ui.add(egui::Slider::new(&mut self.par1, p.range));
+                            ui.add(
+                                egui::Slider::new(&mut self.par1, p.range)
+                                    .drag_value_speed(p.speed),
+                            )
+                            .on_hover_text(p.desc.unwrap_or("".to_owned()));
                         } else if i == 1 {
-                            ui.add(egui::Slider::new(&mut self.par2, p.range));
+                            ui.add(
+                                egui::Slider::new(&mut self.par2, p.range)
+                                    .drag_value_speed(p.speed),
+                            )
+                            .on_hover_text(p.desc.unwrap_or("".to_owned()));
                         } else if i == 2 {
-                            ui.add(egui::Slider::new(&mut self.par3, p.range));
+                            ui.add(
+                                egui::Slider::new(&mut self.par3, p.range)
+                                    .drag_value_speed(p.speed),
+                            )
+                            .on_hover_text(p.desc.unwrap_or("".to_owned()));
                         } else {
                             panic!()
                         }
                     } else if i == 0 {
-                        ui.add(egui::DragValue::new(&mut self.par1).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par1)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else if i == 1 {
-                        ui.add(egui::DragValue::new(&mut self.par2).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par2)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else if i == 2 {
-                        ui.add(egui::DragValue::new(&mut self.par3).range(p.range));
+                        ui.add(
+                            egui::DragValue::new(&mut self.par3)
+                                .range(p.range)
+                                .speed(p.speed),
+                        )
+                        .on_hover_text(p.desc.unwrap_or("".to_owned()));
                     } else {
                         panic!()
                     }

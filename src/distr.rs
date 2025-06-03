@@ -18,6 +18,8 @@ pub struct Param<T> {
     pub default: T,
     pub range: RangeInclusive<T>,
     pub name: String,
+    pub desc: Option<String>,
+    pub speed: f64,
 }
 
 #[derive(Clone, PartialEq, Debug)]

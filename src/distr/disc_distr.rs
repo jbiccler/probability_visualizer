@@ -21,6 +21,8 @@ impl DistrTypes {
                     default: 1_f64,
                     range: RangeInclusive::new(BARELY_POSITIVE, f64::MAX),
                     name: "Lambda".to_owned(),
+                    desc: Some(">0".to_owned()),
+                    speed: 0.1,
                 },
             }],
             DistrTypes::Binomial => vec![
@@ -29,6 +31,8 @@ impl DistrTypes {
                         default: 0.5_f64,
                         range: RangeInclusive::new(0_f64, 1.0),
                         name: "p".to_owned(),
+                        desc: Some("0 <= p <= 1".to_owned()),
+                        speed: 0.05,
                     },
                 },
                 MixedParam::Unsigned {
@@ -36,6 +40,8 @@ impl DistrTypes {
                         default: 5_u64,
                         range: RangeInclusive::new(0, u64::MAX),
                         name: "n".to_owned(),
+                        desc: Some(">=0".to_owned()),
+                        speed: 1.,
                     },
                 },
             ],
@@ -44,6 +50,8 @@ impl DistrTypes {
                     default: 0.5_f64,
                     range: RangeInclusive::new(0., 1.),
                     name: "p".to_owned(),
+                    desc: Some("0 <= p <= 1".to_owned()),
+                    speed: 0.05,
                 },
             }],
             DistrTypes::Geometric => vec![MixedParam::Float {
@@ -51,6 +59,8 @@ impl DistrTypes {
                     default: 0.5_f64,
                     range: RangeInclusive::new(BARELY_POSITIVE, 1.),
                     name: "p".to_owned(),
+                    desc: Some("0 <= p <= 1".to_owned()),
+                    speed: 0.05,
                 },
             }],
             DistrTypes::Hypergeometric => vec![
@@ -59,6 +69,8 @@ impl DistrTypes {
                         default: 500,
                         range: RangeInclusive::new(1, u64::MAX),
                         name: "Population".to_owned(),
+                        desc: Some("0 < Population <= Successes".to_owned()),
+                        speed: 1.,
                     },
                 },
                 MixedParam::Unsigned {
@@ -66,6 +78,8 @@ impl DistrTypes {
                         default: 50,
                         range: RangeInclusive::new(0, u64::MAX),
                         name: "Successes".to_owned(),
+                        desc: Some("0 <= Successes <= Population".to_owned()),
+                        speed: 1.,
                     },
                 },
                 MixedParam::Unsigned {
@@ -73,6 +87,8 @@ impl DistrTypes {
                         default: 100,
                         range: RangeInclusive::new(0, u64::MAX),
                         name: "Draws".to_owned(),
+                        desc: Some("0 <= Draws <= Population".to_owned()),
+                        speed: 1.,
                     },
                 },
             ],
