@@ -47,3 +47,6 @@ getrandom = { version = "0.2", features = ["js"] }
 # opt-level = 3 # fast and small wasm
 opt-level = 'z'
 lto = true
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-z", "--enable-mutable-globals"]

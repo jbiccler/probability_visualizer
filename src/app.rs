@@ -84,7 +84,9 @@ impl eframe::App for TemplateApp {
                 }
                 ui.separator();
                 ui.add_space(10.0);
-                ui.image(egui::include_image!("../assets/Ferris.svg"));
+                ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
+                    ui.image(egui::include_image!("../assets/Ferris.svg"));
+                });
             });
 
         egui::CentralPanel::default().show(ctx, |ui| {

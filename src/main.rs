@@ -21,7 +21,7 @@ fn main() -> eframe::Result {
         ..Default::default()
     };
     eframe::run_native(
-        "eframe template",
+        "Probability Visualizer",
         native_options,
         Box::new(|cc| {
             // This gives us image support:
